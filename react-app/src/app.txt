@@ -1,0 +1,43 @@
+import { useState } from "react";
+import Expense from "./components/Expense";
+import Filter from "./components/Expense Tracker/components/Filter";
+ExpenseForm;
+import categories from "./components/Expense Tracker/components/categories";
+import ExpenseForm from "./components/Expense Tracker/components/ExpenseForm";
+
+const App = () => {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [expenses, setExpense] = useState([
+    { id: 1, description: "Milk", amount: 34, category: "Travel" },
+    { id: 2, description: "Grapes", amount: 34, category: "Food" },
+    { id: 3, description: "Tomato", amount: 34, category: "Bills" },
+    { id: 4, description: "Milk", amount: 34, category: "Bills" },
+    { id: 5, description: "Milk", amount: 34, category: "Food" },
+  ]);
+  const visibleExpense = selectedCategory
+    ? expenses.filter((e) => e.category === selectedCategory)
+    : expenses;
+
+  return (
+    <div>
+      <div className="mb-5">
+        <ExpenseForm
+          onSubmit={(expense) =>
+            setExpense([...expenses, { ...expense, id: expenses.length + 1 }])
+          }
+        />
+      </div>
+      <div className="mb-5">
+        <Filter
+          onSelectCategory={(category) => setSelectedCategory(category)}
+        />
+      </div>
+      <Expense
+        expenses={visibleExpense}
+        onDelete={(id) => setExpense(expenses.filter((e) => e.id !== id))}
+      />
+    </div>
+  );
+};
+
+export default App;
